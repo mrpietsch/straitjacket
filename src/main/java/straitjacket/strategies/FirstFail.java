@@ -8,9 +8,9 @@ import straitjacket.Variable;
 
 public class FirstFail extends Strategy {
 
-	private HashSet<Variable> candidates;
+	private final HashSet<Variable> candidates;
 	
-	class FFComparator implements java.util.Comparator<Variable> {
+	private class FFComparator implements java.util.Comparator<Variable> {
 
 		public int compare(Variable arg0, Variable arg1) {
 			return ((Integer)arg0.getDomain().cardinality()).compareTo(arg1.getDomain().cardinality());
@@ -21,8 +21,8 @@ public class FirstFail extends Strategy {
 	 * Builds an iterator for a first fail strategy.
 	 * @param cs
 	 */
-	public FirstFail(ConstraintSet cs) {;
-		this.candidates = new HashSet<Variable>(cs.getVariables());
+	public FirstFail(ConstraintSet cs) {
+        this.candidates = new HashSet<Variable>(cs.getVariables());
 		this.dequeued = new Stack<Variable>();
 	}
 	

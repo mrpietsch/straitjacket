@@ -9,10 +9,10 @@ public class StrategyFactory {
 		FIRST_FAIL("first fail",FirstFail.class),
 		MOST_CONSTRAINED("most constrained",MostConstrained.class);
 		
-		private String name;
-		private Class reprClass;
+		private final String name;
+		private final Class reprClass;
 		
-		static Class[] parameterTypes = {ConstraintSet.class}; 
+		static final Class[] parameterTypes = {ConstraintSet.class};
 		
 		AvailableStrategies(String name, Class c) {
 			this.name = name;

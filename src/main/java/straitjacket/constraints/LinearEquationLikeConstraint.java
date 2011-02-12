@@ -18,7 +18,7 @@ public abstract class LinearEquationLikeConstraint extends EquationLikeConstrain
 	/**
 	 * A hashmap for all variableCoeffs
 	 */
-	HashMap<Variable,Integer> variableCoeffs;
+    private final HashMap<Variable,Integer> variableCoeffs;
 	
 	/**
 	 * Creates a LinearEquationLikeConstraint with the given parameter
@@ -27,7 +27,7 @@ public abstract class LinearEquationLikeConstraint extends EquationLikeConstrain
 	 * @param coefficients list of the coefficients for the variabeles
 	 * @param rhs the value for the rhs
 	 */
-	public LinearEquationLikeConstraint(String name, ArrayList<Variable> variables, ArrayList<Integer> coefficients, int rhs) {
+    LinearEquationLikeConstraint(String name, ArrayList<Variable> variables, ArrayList<Integer> coefficients, int rhs) {
 		super(name,rhs);
 		
 		this.rhs  = rhs;

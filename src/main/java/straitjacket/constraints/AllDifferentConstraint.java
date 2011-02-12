@@ -1,11 +1,6 @@
 package straitjacket.constraints;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 import straitjacket.Constraint;
 import straitjacket.Variable;
@@ -33,7 +28,7 @@ public class AllDifferentConstraint extends Constraint {
 		super();
 		
 		this.variables = new HashSet<Variable>();
-		for (int i = 0; i < variables.length; i++) this.variables.add(variables[i]);
+        this.variables.addAll(Arrays.asList(variables));
 	}
 	
 	/**
@@ -204,10 +199,9 @@ public class AllDifferentConstraint extends Constraint {
 				}
 
 				// aaand, we create a first 'greedy' matching already
-				if (!matchedVar && !matchedValues.contains(i)) {
+				if (!matchedValues.contains(i)) {
 					edges.get(i).add(var);
 					reverseEdges.get(var).add(i);
-					matchedVar = true;
 					matchedValues.add(i);
 				} else {
 					edges.get(var).add(i);
@@ -543,7 +537,7 @@ public class AllDifferentConstraint extends Constraint {
 					unmatchedVars.add(var);
 				}
 			}
-			Tuple2<HashMap<Object,Integer>,Integer> levels = getLevelLabels(edges, reverseEdges, unmatchedVars);
+			Tuple2<HashMap<Object,Integer>,Integer> levels = getLevelLabels(edges, unmatchedVars);
 			
 			//long time = System.currentTimeMillis() - startTime;
 			//System.out.println("After " + time + "ms we know that the minimum length of an augmenting path is " + levels.second);
@@ -556,7 +550,7 @@ public class AllDifferentConstraint extends Constraint {
 			HashSet<Object> visited = new HashSet<Object>();
 			ArrayList<Object[]> paths = new ArrayList<Object[]>();
 			for (Variable var : unmatchedVars) {
-				Object[] path = getShortestAugmentingPath(edges, reverseEdges, levels.first, visited, levels.second, var);
+				Object[] path = getShortestAugmentingPath(edges, levels.first, visited, levels.second, var);
 				if (path != null) paths.add(path);
 			}
 			
@@ -587,9 +581,8 @@ public class AllDifferentConstraint extends Constraint {
 	 the minimum length of an augmenting path is Integer.MAX_VALUE, if the algorithm is applied to a graph which already contains a
 	 maximum cardinality matching.
 	 */
-	private Tuple2<HashMap<Object,Integer>,Integer> getLevelLabels(HashMap<Object,HashSet<Object>> edges, 
-			HashMap<Object,HashSet<Object>> reverseEdges,
-			Collection<Variable> unmatchedVars) {
+	private Tuple2<HashMap<Object,Integer>,Integer> getLevelLabels(HashMap<Object, HashSet<Object>> edges,
+                                                                   Collection<Variable> unmatchedVars) {
 		
 		// this will be our level function
 		HashMap<Object,Integer> levels = new HashMap<Object, Integer>();
@@ -644,7 +637,6 @@ public class AllDifferentConstraint extends Constraint {
 	 a node can never be part of any augmenting path, if it wasn't part of an augmenting path in this run).
 	 */
 	private Object[] getShortestAugmentingPath(HashMap<Object,HashSet<Object>> edges, 
-			HashMap<Object,HashSet<Object>> reverseEdges,
 			HashMap<Object,Integer> levels,
 			HashSet<Object> visited,
 			int maxPathLength,

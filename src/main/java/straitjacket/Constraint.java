@@ -20,9 +20,9 @@ public abstract class Constraint {
 	/** Enumeration for the state of a constraint. It may be satisfied (TRUE), dissatisfied (FALSE)
 	 * or not determinable (DELAYED).
 	 */
-	public enum satisfaction {TRUE, FALSE, DELAY};
-	
-	/**
+	public enum satisfaction {TRUE, FALSE, DELAY}
+
+    /**
 	 * A name for our Constraint
 	 */
 	protected String name;
@@ -36,7 +36,7 @@ public abstract class Constraint {
 	 * Default-Constructor that will generate a name with an
 	 * underscore and an auto-incremented value like "_42"
 	 */
-	public Constraint() {
+    protected Constraint() {
 		this.name = "_" + counter++;
 	}
 	
@@ -44,7 +44,7 @@ public abstract class Constraint {
 	 * associate the constraint with the given name. 
 	 * @param name a name for the Constraint 
 	 */
-	public Constraint(String name) {
+    protected Constraint(String name) {
 		this.name = name;
 	}
 	
@@ -52,7 +52,7 @@ public abstract class Constraint {
 	 * Gets the name attribute
 	 * @return the name of the Constraint
 	 */
-	public String getName() {
+    protected String getName() {
 		return this.name;
 	}
 	
@@ -61,7 +61,7 @@ public abstract class Constraint {
 	 * at construction time.
 	 * @param name the new name for the Constraint
 	 */
-	public void setName(String name) {
+    protected void setName(String name) {
 		this.name = name;
 	}
 	
@@ -96,13 +96,11 @@ public abstract class Constraint {
 	 * Returns all involved untied variables
 	 * @return all involved untied variables as Collection
 	 */
-	public Collection<Variable> getFreeVariables() {
+    protected Collection<Variable> getFreeVariables() {
 		ArrayList<Variable> freevars=new ArrayList<Variable> ();
-		Iterator <Variable> varIt=variables.iterator();		
-		while (varIt.hasNext()){
-			Variable currentvar=varIt.next();
-			if (!currentvar.isTiedToValue()) freevars.add(currentvar);
-		}
+        for (Variable variable : variables) {
+            if (!variable.isTiedToValue()) freevars.add(variable);
+        }
 		return freevars;
 	}
 	

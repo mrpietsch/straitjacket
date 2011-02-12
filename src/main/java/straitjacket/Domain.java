@@ -16,7 +16,7 @@ public class Domain {
 	 * backtracking algorith and cutting the domain on a deeper level without loosing the 
 	 * old domain 
 	 */	
-	private Stack<BitSet> domainStack = new Stack<BitSet>();
+	private final Stack<BitSet> domainStack = new Stack<BitSet>();
 	
 	/** 
 	 * Creates a new empty Domain. So a Variable with this Domain has no possible allocation.  
@@ -76,7 +76,7 @@ public class Domain {
 	 * (so no possible values are available on this backtracking level) 
 	 */	
 	public void pushEmpty() {
-		domainStack.push((BitSet)new BitSet());
+		domainStack.push(new BitSet());
 	}
 	
 	/**

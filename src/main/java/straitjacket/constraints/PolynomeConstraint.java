@@ -16,7 +16,7 @@ public abstract class PolynomeConstraint extends EquationLikeConstraint {
 	/**
 	 * the list of elements that represents the polynom
 	 */
-	protected ArrayList<PolynomElement> elements;
+    private final ArrayList<PolynomElement> elements;
 	
 	/**
 	 * Create a PolynomeConstraint with the Name name, a function consisting of
@@ -26,7 +26,7 @@ public abstract class PolynomeConstraint extends EquationLikeConstraint {
 	 * @param elems a list of elements that should build the function 
 	 * @param rhs the rhs for the new Constraint
 	 */
-	public PolynomeConstraint(String name, int rhs, ArrayList<PolynomElement> elems) {
+    PolynomeConstraint(String name, int rhs, ArrayList<PolynomElement> elems) {
 		super(name, rhs);
 		elements=elems; 
 		
@@ -34,11 +34,9 @@ public abstract class PolynomeConstraint extends EquationLikeConstraint {
 		Iterator<PolynomElement> elemIter = elements.iterator();
 		variables=new HashSet<Variable>();				
 		while (elemIter.hasNext()) {
-			Iterator<Variable> smallvarIter = elemIter.next().variables.iterator();
-			while (smallvarIter.hasNext()) {
-				Variable var=smallvarIter.next();
-				if (!variables.contains(var)) variables.add( var);	
-			}
+            for (Variable variable : elemIter.next().variables) {
+                if (!variables.contains(variable)) variables.add(variable);
+            }
 		}
 	}
 	
@@ -68,10 +66,9 @@ public abstract class PolynomeConstraint extends EquationLikeConstraint {
 		}
 		
 			int lhs = 0;
-			Iterator<PolynomElement> elemIter = elements.iterator();
-			while (elemIter.hasNext()) {
-				lhs+=elemIter.next().getValueWithRespectTo(valuations);
-			}
+        for (PolynomElement element : elements) {
+            lhs += element.getValueWithRespectTo(valuations);
+        }
 			return operator(lhs,rhs) ? satisfaction.TRUE : satisfaction.FALSE; 
 	}
 	
@@ -96,10 +93,9 @@ public abstract class PolynomeConstraint extends EquationLikeConstraint {
 		}
 		// now we now that each var ist tied, now we build the lhs
 		int lhs = 0;
-		Iterator<PolynomElement> elemIter = elements.iterator();
-		while (elemIter.hasNext()) {
-			lhs+=elemIter.next().getValue();
-		}
+        for (PolynomElement element : elements) {
+            lhs += element.getValue();
+        }
 		return operator(lhs,rhs) ? satisfaction.TRUE : satisfaction.FALSE; 
 	}
 
@@ -112,12 +108,11 @@ public abstract class PolynomeConstraint extends EquationLikeConstraint {
 	public String toString() {
 		String out = this.getName() + ": ";
 		boolean first = true;
-		Iterator<PolynomElement> elemIter = elements.iterator();
-		while (elemIter.hasNext()) {
-			if ( first ) first = false;
-			else out += " + ";
-			out +=  elemIter.next().toString()+" ";
-		}
+        for (PolynomElement element : elements) {
+            if (first) first = false;
+            else out += " + ";
+            out += element.toString() + " ";
+        }
 		out += " " + this.operatorSign() + " " + this.rhs; 		
 		return out;
 	}

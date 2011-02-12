@@ -12,7 +12,7 @@ public class Variable {
 	/**
 	 * the name of the Variable 
 	 */	
-	private String name;
+	private final String name;
 	/**
 	 * the domain for the Variable 
 	 */
@@ -20,7 +20,7 @@ public class Variable {
 	/**
 	 * the value the Variable is tied to, if it ist null the variable is untied
 	 */
-	Integer tiedToValue = null;
+    private Integer tiedToValue = null;
 		
 	/**
 	 * Allocates a new Variable with the given name, the domain should be given later.
@@ -29,7 +29,7 @@ public class Variable {
 	 * @throws VariableNameExistsException is thrown when there already exist a Variable with that name,
 	 * @see ConstraintSet#addVariable(String)
 	 */
-	protected Variable(String name) {
+    Variable(String name) {
 		this.name = name;
 		this.domain = new Domain();
 	}
@@ -43,7 +43,7 @@ public class Variable {
 	 * @throws VariableNameExistsException is thrown when there already exist a Variable with that name,
 	 * @see ConstraintSet#addVariable(String, int, int)
 	 */
-	protected Variable(String name, int lb, int ub) {
+    Variable(String name, int lb, int ub) {
 		this.name = name;
 		this.domain = new Domain(lb,ub);
 	}
@@ -56,7 +56,7 @@ public class Variable {
 	 * @throws VariableNameExistsException is thrown when there already exist a Variable with that name,
 	 * @see ConstraintSet#addVariable(String, int[])
 	 */
-	protected Variable(String name, int[] elements) {
+    Variable(String name, int[] elements) {
 		this.name = name;
 		this.domain = new Domain(elements);
 	}

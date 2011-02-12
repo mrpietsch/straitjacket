@@ -6,7 +6,7 @@ import java.util.HashSet;
 public class HashList<T> extends ArrayList<T> {
 
 	private static final long serialVersionUID = 1L;
-	protected HashSet<T> elementHash = new HashSet<T>();
+	private final HashSet<T> elementHash = new HashSet<T>();
 	
 	@Override
 	public void add(int index, T element) {

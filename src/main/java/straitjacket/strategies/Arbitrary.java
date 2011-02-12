@@ -8,7 +8,7 @@ import straitjacket.Variable;
 
 public class Arbitrary extends Strategy {
 
-	Stack<Variable> candidates;
+	private final Stack<Variable> candidates;
 	
 	public Arbitrary(ConstraintSet cs) {
 		this.dequeued = new Stack<Variable>();

@@ -12,22 +12,22 @@ import straitjacket.Variable;
  * C * x_n^P_n *...* x_1^P_1
  * 
  */
-public class PolynomElement {
+class PolynomElement {
 	
 	/**
 	 * A list of the involved variables (x_i)
 	 */
-	public HashSet<Variable> variables;
+	public final HashSet<Variable> variables;
 	
 	/**
 	 * A hashmap for all variablePowers (P_i)
 	 */
-	protected HashMap<Variable,Double> variablePower;
+    private final HashMap<Variable,Double> variablePower;
 	
 	/**
 	 * the constant coefficient 
 	 */
-	protected double cnst;
+    private final double cnst;
 	
 	/**
 	 * Allocates a new PolynomElement with the given parameters.
@@ -61,7 +61,7 @@ public class PolynomElement {
 	public double getValue(){
 		double sum=cnst;
 		for ( Variable x : this.variablePower.keySet() ) {
-			sum =sum*Math.pow(x.getTiedValue(),variablePower.get(x).doubleValue() );
+			sum =sum*Math.pow(x.getTiedValue(), variablePower.get(x));
 		}
 		return sum;
 	}
@@ -81,13 +81,13 @@ public class PolynomElement {
 		for (Variable var : variables) {
 			// we respect the explicit valuations
 			if ( valuations.containsKey( var ) ) {
-				sum =sum*Math.pow(valuations.get(var),variablePower.get(var).doubleValue() );
+				sum =sum*Math.pow(valuations.get(var), variablePower.get(var));
 				continue;
 			}
 			
 			// we respect wether a variable is tied to a value here or not
 			if (var.isTiedToValue()) {
-				sum =sum*Math.pow(var.getTiedValue(),variablePower.get(var).doubleValue() );
+				sum =sum*Math.pow(var.getTiedValue(), variablePower.get(var));
 			} 
 		}
 

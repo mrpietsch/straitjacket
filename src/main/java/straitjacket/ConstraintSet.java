@@ -19,13 +19,13 @@ public class ConstraintSet extends HashSet<Constraint> {
 	 * save for every variable in which constrain it is involved, so we do not have to search
 	 * the hole list of constrains every time 
 	 */
-	private HashMap<Variable,Collection<Constraint>> constraintsByVariables = new HashMap<Variable,Collection<Constraint>>();
+	private final HashMap<Variable,Collection<Constraint>> constraintsByVariables = new HashMap<Variable,Collection<Constraint>>();
 	
 	//TODO wieso kein orderedhashset ? dann koennen wir uns die dopplungspruefungen sparen
 	/**
 	 * the list of all variables in the problem 
 	 */
-	private HashSet<Variable> variables = new HashSet<Variable>();
+	private final HashSet<Variable> variables = new HashSet<Variable>();
 	
 	/**
 	 * a hash taking care, that there are no two variables with the same name
@@ -33,7 +33,7 @@ public class ConstraintSet extends HashSet<Constraint> {
 	 * this would be a mistake of the using class
 	 * TODO this could be joined with 'variables' to one member 
 	 */
-	private HashMap<String,Variable> variablesByName = new HashMap<String,Variable>();
+	private final HashMap<String,Variable> variablesByName = new HashMap<String,Variable>();
 	
 	/**
 	 *  Found solutions are saved in form of a ArrayList of HashMap, where in each HashMap save to a Varialbe the 
@@ -46,7 +46,7 @@ public class ConstraintSet extends HashSet<Constraint> {
 	 *  be necessary.
 	 *   
 	 */
-	private ArrayList< HashMap<Variable,HashSet<Integer>>> solutions = new ArrayList<HashMap<Variable,HashSet<Integer>> > ();
+	private final ArrayList< HashMap<Variable,HashSet<Integer>>> solutions = new ArrayList<HashMap<Variable,HashSet<Integer>> > ();
 	
 	/**
 	 * Creates a new ConstraintSet. The inital ConstraintSet has no constraints. 
@@ -232,11 +232,11 @@ public class ConstraintSet extends HashSet<Constraint> {
 		StringBuffer stringRepr = new StringBuffer();
 		stringRepr.append("SET:" + "\n");
 		for (Constraint c : this) {
-			stringRepr.append(c + "\n");
+            stringRepr.append(c).append("\n");
 		}
 		stringRepr.append("\n");
 		for (Variable var : variables) {
-			stringRepr.append(var + " in " + var.getDomain() + "\n");
+            stringRepr.append(var).append(" in ").append(var.getDomain()).append("\n");
 		}
 		return stringRepr.toString();
 	}
@@ -254,11 +254,11 @@ public class ConstraintSet extends HashSet<Constraint> {
 		Iterator< HashMap<Variable,HashSet<Integer>>> solutionIt= solutions.iterator();
 		int i=0;
 		while(solutionIt.hasNext()){
-			stringRepr.append("\n\tSolution "+ ++i + ":\n\t");
+            stringRepr.append("\n\tSolution ").append(++i).append(":\n\t");
 			HashMap<Variable,HashSet<Integer>> solution = solutionIt.next();
 			for (Variable var : variables) {
 				HashSet<Integer> value = solution.get(var);
-				stringRepr.append(var.getName() +" in "+ value.toString() +"; ");
+                stringRepr.append(var.getName()).append(" in ").append(value.toString()).append("; ");
 			}		
 		}
 		return stringRepr.toString();

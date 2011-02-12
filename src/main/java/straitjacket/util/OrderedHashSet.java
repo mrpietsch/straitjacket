@@ -17,7 +17,7 @@ public class OrderedHashSet<T> extends ArrayList<T> {
 	/**
 	 * We save all enties of the list in an HashSet
 	 */
-	protected HashSet<T> elementHash;
+    private final HashSet<T> elementHash;
 	/**
 	 * Constructs an empty list with an initial capacity of ten.
 	 */

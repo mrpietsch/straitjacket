@@ -6,14 +6,16 @@
 
 package straitjacket.gui;
 
+import javax.swing.*;
+
 /**
  *
  * @author  peach
  */
-public class SudokuPanel extends javax.swing.JPanel {
+class SudokuPanel extends javax.swing.JPanel {
     
-    javax.swing.JFormattedTextField[][] textFieldMatrix;
-    javax.swing.text.NumberFormatter integerFormatter;
+    private javax.swing.JFormattedTextField[][] textFieldMatrix;
+    private final javax.swing.text.NumberFormatter integerFormatter;
     
     /** Creates new form SudokuPanel */
     public SudokuPanel() {
@@ -37,7 +39,7 @@ public class SudokuPanel extends javax.swing.JPanel {
         return new java.awt.Dimension(400,400);
     }
     
-    public void initMatrix() {
+    void initMatrix() {
         textFieldMatrix = new javax.swing.JFormattedTextField[9][9];
         textFieldMatrix[0][0] = jFormattedTextField1;
         textFieldMatrix[0][1] = jFormattedTextField2;
@@ -149,11 +151,11 @@ public class SudokuPanel extends javax.swing.JPanel {
         jFormattedTextField1 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField2 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField3 = new javax.swing.JFormattedTextField( integerFormatter );
-        jSeparator1 = new javax.swing.JSeparator();
+        JSeparator jSeparator1 = new JSeparator();
         jFormattedTextField4 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField5 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField6 = new javax.swing.JFormattedTextField( integerFormatter );
-        jSeparator2 = new javax.swing.JSeparator();
+        JSeparator jSeparator2 = new JSeparator();
         jFormattedTextField7 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField8 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField9 = new javax.swing.JFormattedTextField( integerFormatter );
@@ -176,14 +178,14 @@ public class SudokuPanel extends javax.swing.JPanel {
         jFormattedTextField26 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField27 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField28 = new javax.swing.JFormattedTextField( integerFormatter );
-        jSeparator3 = new javax.swing.JSeparator();
+        JSeparator jSeparator3 = new JSeparator();
         jFormattedTextField29 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField30 = new javax.swing.JFormattedTextField( integerFormatter );
-        jSeparator4 = new javax.swing.JSeparator();
+        JSeparator jSeparator4 = new JSeparator();
         jFormattedTextField31 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField32 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField33 = new javax.swing.JFormattedTextField( integerFormatter );
-        jSeparator5 = new javax.swing.JSeparator();
+        JSeparator jSeparator5 = new JSeparator();
         jFormattedTextField34 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField35 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField36 = new javax.swing.JFormattedTextField( integerFormatter );
@@ -205,15 +207,15 @@ public class SudokuPanel extends javax.swing.JPanel {
         jFormattedTextField52 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField53 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField54 = new javax.swing.JFormattedTextField( integerFormatter );
-        jSeparator6 = new javax.swing.JSeparator();
+        JSeparator jSeparator6 = new JSeparator();
         jFormattedTextField55 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField56 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField57 = new javax.swing.JFormattedTextField( integerFormatter );
-        jSeparator7 = new javax.swing.JSeparator();
+        JSeparator jSeparator7 = new JSeparator();
         jFormattedTextField58 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField59 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField60 = new javax.swing.JFormattedTextField( integerFormatter );
-        jSeparator8 = new javax.swing.JSeparator();
+        JSeparator jSeparator8 = new JSeparator();
         jFormattedTextField61 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField62 = new javax.swing.JFormattedTextField( integerFormatter );
         jFormattedTextField63 = new javax.swing.JFormattedTextField( integerFormatter );
@@ -717,14 +719,6 @@ public class SudokuPanel extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField jFormattedTextField80;
     private javax.swing.JFormattedTextField jFormattedTextField81;
     private javax.swing.JFormattedTextField jFormattedTextField9;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JSeparator jSeparator7;
-    private javax.swing.JSeparator jSeparator8;
     // End of variables declaration//GEN-END:variables
     
 }

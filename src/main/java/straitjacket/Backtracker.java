@@ -65,7 +65,7 @@ public class Backtracker {
 	 * @param forward boolean whether forward checking (AC3 check in each step) is performed or not
 	 * @param searchAllSolutions boolean whether all solution are search or the methode should simple break when finding a solution 
 	 */
-	public static void backtrack(ConstraintSet cs, AvailableStrategies strategyType, boolean forward, boolean searchAllSolutions)
+	private static void backtrack(ConstraintSet cs, AvailableStrategies strategyType, boolean forward, boolean searchAllSolutions)
 	{
 		// ok here we want to solve the ConstraintSet cs
 		

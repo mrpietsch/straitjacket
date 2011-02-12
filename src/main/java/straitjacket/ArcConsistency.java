@@ -38,8 +38,7 @@ public class ArcConsistency {
 		if ( initialVars != null && initialVars.length > 0 ) {
 			// if called with a list of variables, only append
 			// constraints that contain this variable and one other
-			for ( int i = 0; i<initialVars.length; i++ )
-				worklist.addAll(cs.getConstraintsByVariables().get(initialVars[i]));
+            for (Variable initialVar : initialVars) worklist.addAll(cs.getConstraintsByVariables().get(initialVar));
 		}
 		else {
 			// if called without a variable list, add all constraints with two variables
@@ -54,18 +53,15 @@ public class ArcConsistency {
 			
 			// if some vars changed we have to check the other again
 			if ( chvars!= null && chvars.size()>0 ) {
-				Iterator<Variable> varIterator= chvars.iterator();
-				while (varIterator.hasNext())
-				{
-					Variable cVar=varIterator.next();
-					// has a domain tun out of values? so we failt (or succced by eleminating a subtree)
-					if (cVar.getDomain().getSet().cardinality()==0) return Constraint.satisfaction.FALSE;
-					// enqueue all two-digit constraints where cVar is involved except
-					// the constraint that has been processed above				
-					Collection<Constraint> toBeAdded = cs.getConstraintsByVariables().get(cVar);
-					toBeAdded.remove(c);
-					worklist.addAll( toBeAdded );
-				}
+                for (Variable chvar : chvars) {
+                    // has a domain tun out of values? so we failt (or succced by eleminating a subtree)
+                    if (chvar.getDomain().getSet().cardinality() == 0) return Constraint.satisfaction.FALSE;
+                    // enqueue all two-digit constraints where cVar is involved except
+                    // the constraint that has been processed above
+                    Collection<Constraint> toBeAdded = cs.getConstraintsByVariables().get(chvar);
+                    toBeAdded.remove(c);
+                    worklist.addAll(toBeAdded);
+                }
 			}
 		}//end of while
 		
@@ -89,9 +85,8 @@ public class ArcConsistency {
 		
 		if ( initialVars != null && initialVars.length > 0 ) {
 			for (Constraint c : cs) {
-				if (c.getNumberOfFreeVariables() == 1) 
-					for ( int i = 0; i<initialVars.length; i++ )
-						if (c.containsVariable(initialVars[i])) unaryConstraints.add(c);
+				if (c.getNumberOfFreeVariables() == 1)
+                    for (Variable initialVar : initialVars) if (c.containsVariable(initialVar)) unaryConstraints.add(c);
 			}
 		}
 		else	for (Constraint c : cs) if (c.getNumberOfFreeVariables() == 1) unaryConstraints.add(c);

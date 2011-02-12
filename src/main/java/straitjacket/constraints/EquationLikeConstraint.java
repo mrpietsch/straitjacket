@@ -12,7 +12,7 @@ public abstract class EquationLikeConstraint extends Constraint {
 	/**
 	 * the value for the rhs of the equaltion
 	 */
-	int rhs;
+    final int rhs;
 	
 	/** 
 	 * General constructor for a EquationLikeConstraint, that'll 
@@ -20,7 +20,7 @@ public abstract class EquationLikeConstraint extends Constraint {
 	 * @param name a name for the Constraint
 	 * @param rhs the value for the rhs
 	 */
-	public EquationLikeConstraint(String name, int rhs) {
+    EquationLikeConstraint(String name, int rhs) {
 		super(name);
 		
 		this.rhs  = rhs;
@@ -30,11 +30,11 @@ public abstract class EquationLikeConstraint extends Constraint {
 	 * each EqualitionConstrain has a sign, this methode tells us which sign this constrain has  
 	 * @return a String representing the Sign for the equalition
 	 */
-	public abstract String operatorSign();
+	protected abstract String operatorSign();
 	
 	/**
 	 * this methode validates the statement lhs=f(variables) sign rhs 
 	 * @return boolean (lhs sign rhs)
 	 */
-	public abstract boolean operator(int lhs, int rhs);
+	protected abstract boolean operator(int lhs, int rhs);
 }

@@ -12,6 +12,9 @@ import straitjacket.ConstraintSet;
 import straitjacket.Variable;
 import straitjacket.VariableNameExistsException;
 import straitjacket.constraints.AllDifferentConstraint;
+
+import javax.swing.*;
+
 import static straitjacket.strategies.StrategyFactory.AvailableStrategies;
 
 /**
@@ -23,7 +26,7 @@ public class ConstraintSolverGUI extends javax.swing.JFrame {
     private Integer[][] lastSudokuMaskState;
     
     /** Creates new form ConstraintSolverGUI */
-    public ConstraintSolverGUI() {
+    private ConstraintSolverGUI() {
         this.initComponents();
         this.saveSodukuMaskState();
     }
@@ -35,25 +38,25 @@ public class ConstraintSolverGUI extends javax.swing.JFrame {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">                          
     private void initComponents() {
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        JTabbedPane jTabbedPane1 = new JTabbedPane();
+        JPanel jPanel1 = new JPanel();
         sudokuMask = new straitjacket.gui.SudokuPanel();
-        jPanel3 = new javax.swing.JPanel();
+        JPanel jPanel3 = new JPanel();
         constrainDiagsCheckbox = new javax.swing.JCheckBox();
-        sudokuSolve = new javax.swing.JButton();
+        JButton sudokuSolve = new JButton();
         initialAC3Checkbox = new javax.swing.JCheckBox();
         useForwardCheckingCheckbox = new javax.swing.JCheckBox();
-        jButton2 = new javax.swing.JButton();
+        JButton jButton2 = new JButton();
         jComboBox1 = new javax.swing.JComboBox(new javax.swing.DefaultComboBoxModel(straitjacket.strategies.StrategyFactory.AvailableStrategies.values()));
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        emptyButton = new javax.swing.JButton();
+        JLabel jLabel1 = new JLabel();
+        JButton jButton1 = new JButton();
+        JButton emptyButton = new JButton();
         progressBar = new javax.swing.JProgressBar();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        JLabel jLabel2 = new JLabel();
+        JLabel jLabel3 = new JLabel();
         iterationsLabel = new javax.swing.JLabel();
         timeLabel = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        JLabel jLabel4 = new JLabel();
         timeOverallLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -66,7 +69,7 @@ public class ConstraintSolverGUI extends javax.swing.JFrame {
         sudokuSolve.setText("solve");
         sudokuSolve.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sudokuSolveActionPerformed(evt);
+                sudokuSolveActionPerformed();
             }
         });
 
@@ -83,7 +86,7 @@ public class ConstraintSolverGUI extends javax.swing.JFrame {
         jButton2.setText("reset");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resetSudokuMask(evt);
+                resetSudokuMask();
             }
         });
 
@@ -94,7 +97,7 @@ public class ConstraintSolverGUI extends javax.swing.JFrame {
         emptyButton.setText("empty");
         emptyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emptyButtonPressed(evt);
+                emptyButtonPressed();
             }
         });
 
@@ -235,7 +238,7 @@ public class ConstraintSolverGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void emptyButtonPressed(java.awt.event.ActionEvent evt) {                                    
+    private void emptyButtonPressed() {
         int fieldSize = ((SudokuPanel)this.sudokuMask).getFieldSize();
 
         // reset the time and iteration labels
@@ -252,7 +255,7 @@ public class ConstraintSolverGUI extends javax.swing.JFrame {
         }
     }                                   
 
-    private void resetSudokuMask(java.awt.event.ActionEvent evt) {                                 
+    private void resetSudokuMask() {
         int fieldSize = ((SudokuPanel)this.sudokuMask).getFieldSize();
         
         // reset the time and iteration labels
@@ -294,7 +297,7 @@ public class ConstraintSolverGUI extends javax.swing.JFrame {
         }
     }
     
-    private void sudokuSolveActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    private void sudokuSolveActionPerformed() {
         // saving what the user has entered
         this.saveSodukuMaskState();
         
@@ -347,8 +350,7 @@ public class ConstraintSolverGUI extends javax.swing.JFrame {
             for ( int b = 0; b<blockSize; b++ ) {
                 Variable[] block = new Variable[fieldSize];
                 for ( int i = 0; i<blockSize; i++ )
-                    for ( int j = 0; j<blockSize; j++ )
-                        block[i*blockSize+j] = cells[a*blockSize+i][b*blockSize+j];
+                    System.arraycopy(cells[a * blockSize + i], b * blockSize, block, i * blockSize, blockSize);
                 cs.add( new AllDifferentConstraint(block) );
             }
         }
@@ -435,22 +437,11 @@ public class ConstraintSolverGUI extends javax.swing.JFrame {
     
     // Variables declaration - do not modify                     
     private javax.swing.JCheckBox constrainDiagsCheckbox;
-    private javax.swing.JButton emptyButton;
     private javax.swing.JCheckBox initialAC3Checkbox;
     private javax.swing.JLabel iterationsLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JPanel sudokuMask;
-    private javax.swing.JButton sudokuSolve;
     private javax.swing.JLabel timeLabel;
     private javax.swing.JLabel timeOverallLabel;
     private javax.swing.JCheckBox useForwardCheckingCheckbox;

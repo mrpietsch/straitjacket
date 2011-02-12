@@ -1,5 +1,6 @@
 package straitjacket;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import straitjacket.constraints.AllDifferentConstraint;
 import straitjacket.constraints.EqualsConstraint;
@@ -19,7 +20,7 @@ public class CSPGenerator {
 		SUDOKU3("Sudoku 3x3 (example)") { public ConstraintSet getCS() { return sudokuExample3x3(); } },
 		SUDOKU4("Sudoku 4x4 (example)") { public ConstraintSet getCS() { return sudokuExample4x4(); } };
 		
-		private String name;
+		private final String name;
 		
 		CSPs(String name) {
 			this.name = name;
@@ -37,7 +38,7 @@ public class CSPGenerator {
 	 * SEND + MORE = MONEY
 	 * In contrast to politics leading zeros are not allowed.
 	 */
-	public static ConstraintSet sendMoreMoney() {
+	private static ConstraintSet sendMoreMoney() {
 		
 		ConstraintSet cs = new ConstraintSet();
 		
@@ -89,7 +90,7 @@ public class CSPGenerator {
 	 * SEND + MORE = MONEY
 	 * In contrast to politics leading zeros are not allowed.
 	 */
-	public static ConstraintSet sendMoreMoneyDC() {
+	private static ConstraintSet sendMoreMoneyDC() {
 		
 		ConstraintSet cs = new ConstraintSet();
 		
@@ -129,9 +130,9 @@ public class CSPGenerator {
 			for ( int x=0; x<cv.length; x++ ) {
 				ArrayList<Variable> cVars = new ArrayList<Variable>();
 				ArrayList<Integer> cCoeffs = new ArrayList<Integer>();
-				
-				for ( Variable v : cv[x] ) cVars.add(v);
-				for ( Integer i : cc[x] ) cCoeffs.add(i);
+
+                cVars.addAll(Arrays.asList(cv[x]));
+                cCoeffs.addAll(Arrays.asList(cc[x]));
 				
 				cs.add( new EqualsConstraint("SMM_"+x,cVars,cCoeffs,0 ) );	
 			}
@@ -150,7 +151,7 @@ public class CSPGenerator {
 	 * @param numberOfQueens number of queens
 	 * @param isAmazon if set to true, the queen may hit like a knight (aka amazon, super queen, maharadscha). Won't find solutions with <code>numberOfQueens</code> < 10 
 	 */
-	public static ConstraintSet nQueens(int numberOfQueens, boolean isAmazon) {		
+	private static ConstraintSet nQueens(int numberOfQueens, boolean isAmazon) {
 		ConstraintSet cs = new ConstraintSet();
 		
 		try {
@@ -221,7 +222,7 @@ public class CSPGenerator {
 	 * @return the constraint set containing all neccessary alldifferent constraints
 	 * @see #sudokuExample3x3()
 	 */
-	public static ConstraintSet sudokuEmpty(int blockSize, boolean constrainDiags ) {	
+	private static ConstraintSet sudokuEmpty(int blockSize, boolean constrainDiags) {
 		ConstraintSet cs = new ConstraintSet();
 		
 		int fieldSize = blockSize*blockSize;
@@ -258,8 +259,7 @@ public class CSPGenerator {
 			for ( int b = 0; b<blockSize; b++ ) {
 				Variable[] block = new Variable[fieldSize];
 				for ( int i = 0; i<blockSize; i++ )
-					for ( int j = 0; j<blockSize; j++ )
-						block[i*blockSize+j] = cells[a*blockSize+i][b*blockSize+j];
+                    System.arraycopy(cells[a * blockSize + i], b * blockSize, block, i * blockSize, blockSize);
 				cs.add( new AllDifferentConstraint(block) );
 			}
 		}
@@ -287,7 +287,7 @@ public class CSPGenerator {
 	 * @return the constraints set containing all neccessary alldifferent constraints
 	 * @see #sudokuEmpty(int, boolean)
 	 */
-	public static ConstraintSet sudokuExample4x4() {	
+	private static ConstraintSet sudokuExample4x4() {
 		ConstraintSet cs = new ConstraintSet();
 		
 		int n = 4;
@@ -347,8 +347,7 @@ public class CSPGenerator {
 			for ( int b = 0; b<n; b++ ) {
 				Variable[] block = new Variable[size];
 				for ( int i = 0; i<n; i++ )
-					for ( int j = 0; j<n; j++ )
-						block[i*n+j] = fields[a*n+i][b*n+j];
+                    System.arraycopy(fields[a * n + i], b * n, block, i * n, n);
 				cs.add( new AllDifferentConstraint(block) );
 			}
 		}
@@ -362,7 +361,7 @@ public class CSPGenerator {
 	 * @return the constraints set containing all neccessary alldifferent constraints
 	 * @see #sudokuEmpty(int, boolean)
 	 */
-	public static ConstraintSet sudokuExample3x3() {	
+	private static ConstraintSet sudokuExample3x3() {
 		ConstraintSet cs = new ConstraintSet();
 		
 		int n = 3;
@@ -415,8 +414,7 @@ public class CSPGenerator {
 			for ( int b = 0; b<n; b++ ) {
 				Variable[] block = new Variable[size];
 				for ( int i = 0; i<n; i++ )
-					for ( int j = 0; j<n; j++ )
-						block[i*n+j] = fields[a*n+i][b*n+j];
+                    System.arraycopy(fields[a * n + i], b * n, block, i * n, n);
 				cs.add( new AllDifferentConstraint(block) );
 			}
 		}

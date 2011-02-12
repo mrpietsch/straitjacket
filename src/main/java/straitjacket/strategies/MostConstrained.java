@@ -13,11 +13,11 @@ import straitjacket.Variable;
 
 
 public class MostConstrained extends Strategy {
-	private LinkedList<Variable> candidates;
+	private final LinkedList<Variable> candidates;
 	
 	class MCComparator implements java.util.Comparator<Variable> {
 
-		Map<Variable,Integer> constraintCountByVariable;
+		final Map<Variable,Integer> constraintCountByVariable;
 		
 		public MCComparator(ConstraintSet cs) {
 			Map<Variable,Collection<Constraint>> cBV = cs.getConstraintsByVariables();
