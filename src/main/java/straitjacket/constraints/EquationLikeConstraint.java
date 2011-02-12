@@ -12,7 +12,7 @@ public abstract class EquationLikeConstraint extends Constraint {
 	/**
 	 * the value for the rhs of the equaltion
 	 */
-    final int rhs;
+    int rhs;
 	
 	/** 
 	 * General constructor for a EquationLikeConstraint, that'll 
