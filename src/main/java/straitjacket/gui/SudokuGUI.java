@@ -52,8 +52,16 @@ public class SudokuGUI {
                 for (int row = 0; row < SIZE; row++) {
                     for (int col = 0; col < SIZE; col++) {
 
-                        JTextField textField = new JTextField();
+                        final JTextField textField = new JTextField();
                         textFields[blockRow][blockCol][row][col] = textField;
+
+
+                        textField.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                tryToSolve(textFields, false);
+                            }
+                        });
 
                         constraints.gridx = col;
                         constraints.gridy = row;
@@ -77,87 +85,7 @@ public class SudokuGUI {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                try {
-
-                    ConstraintSet cs = new ConstraintSet();
-
-                    Variable[][][][] variables = new Variable[SIZE][SIZE][SIZE][SIZE];
-                    Variable[][] cols = new Variable[SIZE * SIZE][SIZE * SIZE];
-                    Variable[][] rows = new Variable[SIZE * SIZE][SIZE * SIZE];
-                    Variable[][] blocks = new Variable[SIZE * SIZE][SIZE * SIZE];
-
-                    // set up variables
-                    for (int blockRow = 0; blockRow < SIZE; blockRow++) {
-                        for (int blockCol = 0; blockCol < SIZE; blockCol++) {
-                            for (int row = 0; row < SIZE; row++) {
-                                for (int col = 0; col < SIZE; col++) {
-                                    Variable variable = cs.addVariable(String.format("sud_%d_%d_%d_%d", blockRow, blockCol, row, col), 1, SIZE * SIZE);
-
-                                    JTextField textField = textFields[blockRow][blockCol][row][col];
-                                    String value = textField.getText();
-                                    if (value!=null && !value.isEmpty()) {
-                                        int intValue = Integer.parseInt(value);
-                                        variable.setDomain(intValue);
-                                    }
-
-                                    variables[blockRow][blockCol][row][col] = variable;
-                                    rows[SIZE * blockRow + row][SIZE * blockCol + col] = variable;
-                                    cols[SIZE * blockCol + col][SIZE * blockRow + row] = variable;
-                                    blocks[SIZE * blockRow + blockCol][SIZE * row + col] = variable;
-                                }
-                            }
-                        }
-                    }
-
-                    // set up the alldifferent constraints for the rows, columns and block
-                    for (Variable[] vars : blocks) cs.add(new AllDifferentConstraint(vars));
-                    for (Variable[] vars : rows) cs.add(new AllDifferentConstraint(vars));
-                    for (Variable[] vars : cols) cs.add(new AllDifferentConstraint(vars));
-
-
-                    // take the time
-                    long overallTime = System.currentTimeMillis();
-
-                    // initial AC3 if wanted
-//                    if ( this.initialAC3Checkbox.isSelected() ) {
-                        System.out.println("Initial AC3...\n");
-                        ArcConsistency.ac3(cs);
-                        System.out.println("" + cs);
-//                    }
-
-                    // does the user want forward checking?
-//                    if ( this.useForwardCheckingCheckbox.isSelected() ) {
-                        Backtracker.backtrackSolveForwardCheck(cs, StrategyFactory.AvailableStrategies.FIRST_FAIL);
-//                    } else {
-//                        Backtracker.backtrackSolve(cs,strat);
-//                    }
-
-                    // take the time
-                    overallTime = System.currentTimeMillis() - overallTime;
-                    System.out.printf("Overall time = %d%n", overallTime);
-
-                    for (int blockRow = 0; blockRow < SIZE; blockRow++) {
-                        for (int blockCol = 0; blockCol < SIZE; blockCol++) {
-                            for (int row = 0; row < SIZE; row++) {
-                                for (int col = 0; col < SIZE; col++) {
-
-                                    Variable variable = variables[blockRow][blockCol][row][col];
-                                    if (variable.isTiedToValue()) {
-                                        Integer tiedValue = variable.getTiedValue();
-                                        JTextField textField = textFields[blockRow][blockCol][row][col];
-                                        textField.setText("" + tiedValue);
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-
-
-                } catch (VariableNameExistsException ex) {
-                    System.out.println("A Variable with that name already exists!");
-                }
+                tryToSolve(textFields, true);
             }
         });
 
@@ -165,6 +93,98 @@ public class SudokuGUI {
         frame.pack();
         frame.setVisible(true);
 
+    }
+
+    private static void tryToSolve(JTextField[][][][] textFields, boolean backtrack) {
+        try {
+
+            ConstraintSet cs = new ConstraintSet();
+
+            Variable[][][][] variables = new Variable[SIZE][SIZE][SIZE][SIZE];
+            Variable[][] cols = new Variable[SIZE * SIZE][SIZE * SIZE];
+            Variable[][] rows = new Variable[SIZE * SIZE][SIZE * SIZE];
+            Variable[][] blocks = new Variable[SIZE * SIZE][SIZE * SIZE];
+
+            // set up variables
+            for (int blockRow = 0; blockRow < SIZE; blockRow++) {
+                for (int blockCol = 0; blockCol < SIZE; blockCol++) {
+                    for (int row = 0; row < SIZE; row++) {
+                        for (int col = 0; col < SIZE; col++) {
+                            Variable variable = cs.addVariable(String.format("sud_%d_%d_%d_%d", blockRow, blockCol, row, col), 1, SIZE * SIZE);
+
+                            JTextField textField = textFields[blockRow][blockCol][row][col];
+                            String value = textField.getText();
+                            if (value!=null && !value.isEmpty()) {
+                                int intValue = Integer.parseInt(value);
+                                variable.setDomain(intValue);
+                            }
+
+                            variables[blockRow][blockCol][row][col] = variable;
+                            rows[SIZE * blockRow + row][SIZE * blockCol + col] = variable;
+                            cols[SIZE * blockCol + col][SIZE * blockRow + row] = variable;
+                            blocks[SIZE * blockRow + blockCol][SIZE * row + col] = variable;
+                        }
+                    }
+                }
+            }
+
+            // set up the alldifferent constraints for the rows, columns and block
+            for (Variable[] vars : blocks) cs.add(new AllDifferentConstraint(vars));
+            for (Variable[] vars : rows) cs.add(new AllDifferentConstraint(vars));
+            for (Variable[] vars : cols) cs.add(new AllDifferentConstraint(vars));
+
+
+            // take the time
+            long overallTime = System.currentTimeMillis();
+
+            // initial AC3 if wanted
+//                    if ( this.initialAC3Checkbox.isSelected() ) {
+                System.out.println("Initial AC3...\n");
+                ArcConsistency.ac3(cs);
+                System.out.println("" + cs);
+//                    }
+
+            // does the user want forward checking?
+//                    if ( this.useForwardCheckingCheckbox.isSelected() ) {
+            if (backtrack) {
+                Backtracker.backtrackSolveForwardCheck(cs, StrategyFactory.AvailableStrategies.FIRST_FAIL);
+            }
+//                    } else {
+//                        Backtracker.backtrackSolve(cs,strat);
+//                    }
+
+            // take the time
+            overallTime = System.currentTimeMillis() - overallTime;
+            System.out.printf("Overall time = %d%n", overallTime);
+
+            for (int blockRow = 0; blockRow < SIZE; blockRow++) {
+                for (int blockCol = 0; blockCol < SIZE; blockCol++) {
+                    for (int row = 0; row < SIZE; row++) {
+                        for (int col = 0; col < SIZE; col++) {
+
+                            Variable variable = variables[blockRow][blockCol][row][col];
+                            int[] ints = variable.getDomain().validToArray();
+                            JTextField textField = textFields[blockRow][blockCol][row][col];
+                            if (variable.isTiedToValue()) {
+                                Integer tiedValue = variable.getTiedValue();
+                                textField.setText("" + tiedValue);
+                            } else if (ints.length == 1) {
+                                Integer tiedValue = ints[0];
+                                textField.setText("" + tiedValue);
+                            }
+                            int possible = SIZE * SIZE;
+                            int scale = ints.length * 255 / possible;
+                            textField.setBackground(new Color(scale,255,scale));
+
+                        }
+                    }
+                }
+            }
+
+
+        } catch (VariableNameExistsException ex) {
+            System.out.println("A Variable with that name already exists!");
+        }
     }
 
 }
